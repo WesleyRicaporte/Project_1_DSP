@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "build": "cd ./waveforms && webpack"
+    },
+    "devDependencies": {
+        "ts-loader": "^9.6.2",
+        "typescript": "~6.0.0",
+        "webpack": "^5.110.3",
+        "webpack-cli": "^7.2.3"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+
+        "rootDir": ".",
+        "lib": ["es2015"],
+        "outDir": "./dist",
+        "noEmit": false
+    },
+    "include": ["src/**/*.ts"]
+}
