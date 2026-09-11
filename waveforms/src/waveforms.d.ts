@@ -1,6 +1,6 @@
 declare global {
-    const wait: (ms: number) => void;
-    const stdout: (...args: string[]) => void;
+    const wait: (ms?: number) => boolean;
+    const print: (...args: string[]) => void;
     const clear: () => void;
 
     const Device: {
@@ -18,15 +18,18 @@ declare global {
 
         export: (file: string) => void;
 
-        Measurements: {
-            name: {
-                value: number;
-                count: number;
+        Channel1: {
+            data: number[];
+        };
 
-                minimum: number;
-                maximum: number;
-                median: number;
-                mode: number;
+        Time: {
+            Rate: {
+                // Sampling frequency (Hz)
+                value: number;
+            };
+
+            Position: {
+                value: number;
             };
         };
     };

@@ -1,9 +1,13 @@
 const path = require("path");
 
 module.exports = {
-    mode: "development",
+    mode: "production",
     devtool: false,
     entry: path.join(__dirname, "./src/main.ts"),
+    optimization: {
+        usedExports: true,
+        minimize: true,
+    },
     output: {
         path: path.resolve(__dirname, "./build"),
         filename: "bundle.js", // <--- Will be compiled to this single file
