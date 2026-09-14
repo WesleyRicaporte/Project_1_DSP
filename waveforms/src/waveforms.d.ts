@@ -1,3 +1,5 @@
+import "./waveforms_file.js";
+
 declare global {
     const wait: (ms?: number) => boolean;
     const print: (...args: string[]) => void;
@@ -60,29 +62,6 @@ declare global {
     };
 
     const File: (path: string) => file_t;
-
-    type file_t = {
-        exists: () => void;
-        getName: () => string;
-        getPath: () => string;
-        getSize: () => number;
-        isReadOnly: () => boolean;
-        isHidden: () => boolean;
-        getLastModified: () => Date;
-        getCreation: () => Date;
-
-        rename: (name: string) => void;
-        copy: (path: string) => void;
-        deleteFile: () => void;
-
-        read: (size?: number) => string;
-        readArray: () => string[];
-
-        write: (text: string) => void;
-        writeLine: (text: string) => void;
-        append: (text: string) => void;
-        appendLine: (text: string) => void;
-    };
 }
 
 export {};

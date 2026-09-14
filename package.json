@@ -1,8 +1,11 @@
 {
     "scripts": {
-        "build": "cd ./waveforms && webpack"
+        "build": "cd ./waveforms && webpack",
+        "mock": "cd ./waveforms/mock && tsc && node ./dist/mock/mock.js",
+        "server": "cd ./server && . ./.venv/bin/activate && python3 main.py"
     },
     "devDependencies": {
+        "@types/node": "^26.5.1",
         "ts-loader": "^9.6.2",
         "typescript": "~6.0.0",
         "webpack": "^5.110.3",

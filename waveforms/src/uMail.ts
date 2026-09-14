@@ -4,7 +4,7 @@ interface UMail {
      * @param cb    Callback to custom file writer
      * Expected to append (not just write blindly)
      */
-    write(cb: (file: file_t) => PromiseLike<number>): PromiseLike<void>;
+    write(cb: (file: file_min_t) => PromiseLike<number>): PromiseLike<void>;
     write(text: string): PromiseLike<void>;
 }
 
@@ -29,24 +29,30 @@ export class UMailTx implements UMail {
         return `${this.rootDir}${this.prefix}_dat.mbx`;
     }
 
-    readonly fGen: file_t;
-    readonly fDat: file_t;
+    readonly fGen: file_min_t;
+    readonly fDat: file_min_t;
 
-    constructor(rootDir: string, prefix: string) {
+    constructor(
+        rootDir: string,
+        prefix: string,
+        options?: {
+            File?: (path: string) => file_min_t;
+        },
+    ) {
         this.rootDir = rootDir.endsWith("/") ? rootDir : `${rootDir}/`;
         this.prefix = prefix;
 
-        this.fGen = File(this.pGen);
-        this.fDat = File(this.pDat);
-
-        print(this.fGen.getPath());
+        const F =
+            options?.File ?? (File as unknown as (path: string) => file_min_t);
+        this.fGen = F(this.pGen);
+        this.fDat = F(this.pDat);
     }
 
-    write(cb: (file: file_t) => PromiseLike<number>): PromiseLike<void>;
+    write(cb: (file: file_min_t) => PromiseLike<number>): PromiseLike<void>;
     write(text: string): PromiseLike<void>;
 
     async write(
-        arg0: ((file: file_t) => PromiseLike<number>) | string,
+        arg0: ((file: file_min_t) => PromiseLike<number>) | string,
     ): Promise<void> {
         if (typeof arg0 === "function") {
             this.fDat.write(""); // Clear file before appending
@@ -94,9 +100,9 @@ export class UMail2Tx implements UMail {
         return this.nameToPath("dat1");
     }
 
-    readonly fGen: file_t;
-    readonly fDat0: file_t;
-    readonly fDat1: file_t;
+    readonly fGen: file_min_t;
+    readonly fDat0: file_min_t;
+    readonly fDat1: file_min_t;
 
     constructor(
         rootDir: string,
@@ -104,22 +110,26 @@ export class UMail2Tx implements UMail {
         options?: {
             /** Minimum number of bytes to write before switching to other buffer */
             threshold?: number;
+
+            File?: (path: string) => file_min_t;
         },
     ) {
         this.rootDir = rootDir.endsWith("/") ? rootDir : `${rootDir}/`;
         this.prefix = prefix;
         this.threshold = options?.threshold ?? 1024;
 
-        this.fGen = File(this.pGen);
-        this.fDat0 = File(this.pDat0);
-        this.fDat1 = File(this.pDat1);
+        const F =
+            options?.File ?? (File as unknown as (path: string) => file_min_t);
+        this.fGen = F(this.pGen);
+        this.fDat0 = F(this.pDat0);
+        this.fDat1 = F(this.pDat1);
     }
 
-    write(cb: (file: file_t) => PromiseLike<number>): PromiseLike<void>;
+    write(cb: (file: file_min_t) => PromiseLike<number>): PromiseLike<void>;
     write(text: string): PromiseLike<void>;
 
     async write(
-        arg0: ((file: file_t) => PromiseLike<number>) | string,
+        arg0: ((file: file_min_t) => PromiseLike<number>) | string,
     ): Promise<void> {
         // Get current writable file
         // This is the file that is NOT pointed at by the generation counter

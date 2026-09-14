@@ -46,7 +46,7 @@ function main() {
                 csv.push(`${t0 + +i * dt},${data[i]}`);
             }
 
-            const contents = csv.join("\n");
+            const contents = csv.join("\n") + "\n";
             tx.write(contents);
 
             const size = contents.length;

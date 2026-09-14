@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "ES2025",
+
+        "types": ["node"],
+        "lib": ["es2022"],
+        "rootDir": "..",
+        "outDir": "./dist",
+        "noEmit": false
+    },
+    "include": ["mock.ts", "../src/waveforms_file.d.ts"]
+}
