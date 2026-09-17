@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 
 const rootDir = "/tmp/mailbox";
+const prefix = "t";
 const minPeriod = 500; // Min time between subsequent reads (ms)
 
 const mockFreq = 10; // Mock frequency
@@ -15,7 +16,7 @@ const noise = 0.01;
 function main() {
     const byteSizes = ["B", "KB", "MB", "GB"];
 
-    const tx = new UMail2Tx(rootDir, "tx", {
+    const tx = new UMail2Tx(rootDir, prefix, {
         threshold: 10000,
         File: (p: string) => {
             // Ensure dir exists
