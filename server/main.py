@@ -1,6 +1,8 @@
 import time
 import numpy as np
 import io
+import asyncio
+from websockets.asyncio.server import serve, ServerConnection
 from dataclasses import asdict
 import json
 from process import processA, processB
@@ -9,20 +11,41 @@ from uMail import UMail2Rx
 
 rootDir = "/tmp/mailbox"
 prefix = "t"
+port = 5150
 
-def main():
+clients: dict[ServerConnection, bool] = {}
+loop: asyncio.AbstractEventLoop = None
+
+async def handler(websocket: ServerConnection):
+    clients[websocket] = True # Track self
+    print(f"Client connected ({len(clients)})")
+
+    try:
+        async for message in websocket:
+            pass
+    finally:
+        del clients[websocket] # Untrack self
+
+        print(f"Client disconnected ({len(clients)})")
+
+
+async def main():
+    global loop
+    loop = asyncio.get_running_loop()
 
     mailbox = UMail2Rx(rootDir, prefix, onRx)
+    server = await serve(handler, "127.0.0.1", port)
+    await server.serve_forever()
 
-    # Keep running until stopped
-    try:
-        while (True):
-            time.sleep(1)
-    finally:
-        mailbox.destroy()
+    print("FINISHED")
+    mailbox.destroy()
 
 def onRx(s):
-    data = np.loadtxt(io.StringIO(s), dtype=np.dtype([("time", float), ("value", float)]), delimiter=",")
+    sstream = io.StringIO(s)
+    asyncio.run_coroutine_threadsafe(run_processing(sstream), loop)
+
+async def run_processing(sstream: io.StringIO):
+    data = np.loadtxt(sstream, dtype=np.dtype([("time", float), ("value", float)]), delimiter=",")
 
     # Process data into all base params of sine wave
     processedA = processA(data) # Run method A
@@ -46,8 +69,10 @@ def onRx(s):
     # Stingify payload for socket transport layer
     jsonPayload = json.dumps(payload)
 
-    print(jsonPayload)
+    # Send to all clients
+    for c in clients:
+        await c.send(jsonPayload)
 
 
 if (__name__ == "__main__"):
-    main()
+    asyncio.run(main())
