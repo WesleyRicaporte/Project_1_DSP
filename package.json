@@ -2,7 +2,7 @@
     "scripts": {
         "build": "cd ./waveforms && webpack",
         "mock": "cd ./waveforms/mock && tsc && node ./dist/mock/mock.js",
-        "server": "cd ./server && . ./.venv/bin/activate && python3 main.py"
+        "server": "cd ./server && ./run.sh"
     },
     "devDependencies": {
         "@types/node": "^26.5.1",

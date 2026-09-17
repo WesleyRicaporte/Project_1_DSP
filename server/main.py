@@ -1,11 +1,15 @@
 import socket
 import time
+from pathlib import Path
 from watchdog.events import FileSystemEventHandler, FileSystemEvent
 from watchdog.observers import Observer
 
 rootDir = "/tmp/mailbox"
 
 def main():
+
+    # Create mailbox if it doesn't yet exist...
+    Path(rootDir).mkdir(parents=True, exist_ok=True)
 
     # Watch mailbox
     handler = Handler()
