@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=pause" />
+
+    <script type="module" src="script.ts" defer></script>
+</head>
+
+<body>
+
+    <label class="frame-view">
+        <span class="material-symbols-outlined frame-view-paused">pause</span>
+        <canvas class="frame-view-canvas"></canvas>
+
+        <input type="checkbox" class="frame-state" hidden>
+    </label>
+
+    <main class="dashboard">
+
+        <!-- ==================== SECTION 1 ==================== -->
+        <section class="data-section" id="section-1">
+
+            <h2 class="section-title">Original</h2>
+
+            <div class="chart-container">
+                <!-- Give this element to Google Charts -->
+                <div class="chart" id="chart-1"></div>
+            </div>
+
+            <div class="stats" id="stats-1">
+
+                <!-- Example stat -->
+                <div class="stat">
+                    <div class="stat-label">Average</div>
+                    <div class="stat-value">73.4</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Minimum</div>
+                    <div class="stat-value">42.1</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Maximum</div>
+                    <div class="stat-value">98.7</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Samples</div>
+                    <div class="stat-value">1,248</div>
+                </div>
+
+            </div>
+
+            <!-- Clone this to create additional stats -->
+            <template id="stat-template-1">
+                <div class="stat">
+                    <div class="stat-label"></div>
+                    <div class="stat-value"></div>
+                </div>
+            </template>
+
+        </section>
+
+
+        <!-- ==================== SECTION 2 ==================== -->
+        <section class="data-section" id="section-2">
+
+            <h2 class="section-title">Ours</h2>
+
+            <div class="chart-container">
+                <!-- Give this element to Google Charts -->
+                <div class="chart" id="chart-2"></div>
+            </div>
+
+            <div class="stats" id="stats-2">
+
+                <!-- Example stat -->
+                <div class="stat">
+                    <div class="stat-label">Average</div>
+                    <div class="stat-value">61.8</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Minimum</div>
+                    <div class="stat-value">28.3</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Maximum</div>
+                    <div class="stat-value">87.5</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-label">Samples</div>
+                    <div class="stat-value">964</div>
+                </div>
+
+            </div>
+
+            <!-- Clone this to create additional stats -->
+            <template id="stat-template-2">
+                <div class="stat">
+                    <div class="stat-label"></div>
+                    <div class="stat-value"></div>
+                </div>
+            </template>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
