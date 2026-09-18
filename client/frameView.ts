@@ -2,7 +2,7 @@
  * Render incoming frames of data
  */
 export class FrameView {
-    private readonly element: HTMLElement;
+    readonly element: HTMLElement;
     private readonly canvas: HTMLCanvasElement;
     private readonly ctx: CanvasRenderingContext2D;
     private readonly tTotMs: number;
@@ -48,15 +48,17 @@ export class FrameView {
 
     /**
      * Indicate that some frame was just received
+     * @returns Whether the frame should be used
      */
-    pushFrame() {
-        if (this.paused) return;
+    pushFrame(): boolean {
+        if (this.paused) return false;
 
         // Push new frame event to queue
         this.events.add(new Date().getTime());
 
         // Start animation loop if required
         this.kickAnimation();
+        return true;
     }
 
     private kickAnimation() {

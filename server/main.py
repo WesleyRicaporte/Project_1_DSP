@@ -56,6 +56,7 @@ async def run_processing(sstream: io.StringIO):
 
     payload = {
         "time": data["time"].tolist(),
+        "raw": data["value"].tolist(),
         "a": {
             **asdict(evaluatedA),
             **asdict(processedA)
