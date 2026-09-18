@@ -110,9 +110,14 @@ export class Panel {
         legend: {
             visible: false,
         },
+
+        modebar: {
+            remove: ["select2d", "lasso2d", "sendChartToCloud"],
+        },
     };
 
     static config: Partial<Plotly.Config> = {
         responsive: true,
+        displaylogo: false,
     };
 }

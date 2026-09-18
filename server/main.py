@@ -34,7 +34,7 @@ async def main():
     loop = asyncio.get_running_loop()
 
     mailbox = UMail2Rx(rootDir, prefix, onRx)
-    server = await serve(handler, "127.0.0.1", port)
+    server = await serve(handler, "0.0.0.0", port)
     await server.serve_forever()
 
     print("FINISHED")

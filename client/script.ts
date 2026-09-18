@@ -14,7 +14,7 @@ const portStr = new URLSearchParams(window.location.search).get("p") ?? "NaN";
 const port = isNaN(+portStr) ? 5150 : +portStr;
 
 function connect() {
-    const socket = new WebSocket(`ws://127.0.0.1:${port}`);
+    const socket = new WebSocket(`ws://${window.location.hostname}:${port}`);
 
     // Show socket state to user
     socket.onerror = (ev: Event) => {
@@ -55,18 +55,18 @@ function onmessage(ev: MessageEvent) {
 
     // Render data counts immediately (low frame-budget cost)
     p1.stat([
-        ["Frequency (rad/s)", data.a.freq],
-        ["Phase (rad)", data.a.phase],
-        ["Amplitude", data.a.amp],
-        ["Offset", data.a.offset],
-        ["Error", data.a.error],
-    ]);
-    p2.stat([
         ["Frequency (rad/s)", data.b.freq],
         ["Phase (rad)", data.b.phase],
         ["Amplitude", data.b.amp],
         ["Offset", data.b.offset],
         ["Error", data.b.error],
+    ]);
+    p2.stat([
+        ["Frequency (rad/s)", data.a.freq],
+        ["Phase (rad)", data.a.phase],
+        ["Amplitude", data.a.amp],
+        ["Offset", data.a.offset],
+        ["Error", data.a.error],
     ]);
 }
 
@@ -74,12 +74,12 @@ let staggeredRenderCt = 0;
 function staggeredRender(data: scheme) {
     switch (staggeredRenderCt) {
         case 0:
-            p1.plot(data.time, data.raw, data.a.synthesized);
+            p1.plot(data.time, data.raw, data.b.synthesized);
 
             stepStaggeredRender(data, 250, true);
             break;
         case 1:
-            p2.plot(data.time, data.raw, data.b.synthesized);
+            p2.plot(data.time, data.raw, data.a.synthesized);
             staggeredRenderCt = 0; // Reset
             break;
     }

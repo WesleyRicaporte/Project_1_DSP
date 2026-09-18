@@ -2,6 +2,8 @@
 
 RUN_INSTALL=0
 
+WATCH=${1:-0}
+
 if [ ! -d ".venv" ]; then
     echo "Initializing venv..."
     RUN_INSTALL=1
@@ -15,4 +17,8 @@ if [ "$RUN_INSTALL" -eq 1 ]; then
     pip install -r requirements.txt
 fi
 
-python main.py        # Run server
+if [ "$WATCH" -eq 0 ]; then
+    python main.py  # one-shot run server
+else
+    nodemon main.py # Watch for changes
+fi

@@ -8,10 +8,10 @@ const rootDir = "/tmp/mailbox";
 const prefix = "t";
 const minPeriod = 500; // Min time between subsequent reads (ms)
 
-const mockFreq = 10; // Mock frequency
+const mockFreq = 1; // Mock frequency (Hz)
 const samplesPerReading = 1024;
-const sampleRate = 100; // Samples per second
-const noise = 0.01;
+const sampleRate = 100; // Sampling frequency (Hz)
+const noise = 0.1;
 const fnoise = 0.01;
 
 function main() {
@@ -43,13 +43,13 @@ function main() {
         const csv: string[] = [];
 
         const fn = 1 + (2 * Math.random() - 1) * fnoise;
-        const freq = mockFreq * fn;
+        const w0 = 2 * Math.PI * mockFreq * fn;
 
         // Generate points
         for (let i = 0; i < samplesPerReading; i++) {
             const t = i / sampleRate;
 
-            const v = Math.cos(t * freq) + Math.random() * noise;
+            const v = Math.cos(t * w0) + Math.random() * noise;
 
             csv.push(`${t},${v}`);
         }
