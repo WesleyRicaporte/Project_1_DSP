@@ -55,15 +55,15 @@ function onmessage(ev: MessageEvent) {
 
     // Render data counts immediately (low frame-budget cost)
     p1.stat([
-        ["Frequency (rad/s)", data.b.freq],
-        ["Phase (rad)", data.b.phase],
+        ["Frequency (Hz)", data.b.freq / (2 * Math.PI)],
+        ["Phase (deg)", (data.b.phase * 180) / Math.PI],
         ["Amplitude", data.b.amp],
         ["Offset", data.b.offset],
         ["Error", data.b.error],
     ]);
     p2.stat([
-        ["Frequency (rad/s)", data.a.freq],
-        ["Phase (rad)", data.a.phase],
+        ["Frequency (Hz)", data.a.freq / (2 * Math.PI)],
+        ["Phase (deg)", (data.a.phase * 180) / Math.PI],
         ["Amplitude", data.a.amp],
         ["Offset", data.a.offset],
         ["Error", data.a.error],

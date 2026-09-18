@@ -2,7 +2,7 @@ import { UMail2Tx, UMailTx } from "./uMail.js";
 
 const rootDir = "/tmp/mailbox";
 const prefix = "t";
-const minPeriod = 500; // Min time between subsequent reads (ms)
+const minPeriod = 100; // Min time between subsequent reads (ms)
 
 // Main function (entry point)
 function main() {
@@ -44,7 +44,8 @@ function main() {
             // Stored in format [t, data@t]
             const csv = []; // Store individual lines
             for (const i in data) {
-                csv.push(`${t0 + +i * dt},${data[i]}`);
+                const t = (t0 + +i * dt) / 1000;
+                csv.push(`${t},${data[i]}`);
             }
 
             const contents = csv.join("\n") + "\n";

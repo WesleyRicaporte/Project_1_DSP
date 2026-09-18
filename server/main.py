@@ -40,39 +40,51 @@ async def main():
     print("FINISHED")
     mailbox.destroy()
 
+processing = False
 def onRx(s):
+    if (processing):
+        return
+
     sstream = io.StringIO(s)
     asyncio.run_coroutine_threadsafe(run_processing(sstream), loop)
 
 async def run_processing(sstream: io.StringIO):
-    data = np.loadtxt(sstream, dtype=np.dtype([("time", float), ("value", float)]), delimiter=",")
+    global processing
 
-    # Process data into all base params of sine wave
-    processedA = processA(data) # Run method A
-    processedB = processB(data) # Run method B
+    processing = True
 
-    evaluatedA = evaluate(data, processedA)
-    evaluatedB = evaluate(data, processedB)
+    try:
+        data = np.loadtxt(sstream, dtype=np.dtype([("time", float), ("value", float)]), delimiter=",")
 
-    payload = {
-        "time": data["time"].tolist(),
-        "raw": data["value"].tolist(),
-        "a": {
-            **asdict(evaluatedA),
-            **asdict(processedA)
-        },
-        "b": {
-            **asdict(evaluatedB),
-            **asdict(processedB)
+        # Process data into all base params of sine wave
+        processedA = processA(data) # Run method A
+        processedB = processB(data) # Run method B
+
+        evaluatedA = evaluate(data, processedA)
+        evaluatedB = evaluate(data, processedB)
+
+        payload = {
+            "time": data["time"].tolist(),
+            "raw": data["value"].tolist(),
+            "a": {
+                **asdict(evaluatedA),
+                **asdict(processedA)
+            },
+            "b": {
+                **asdict(evaluatedB),
+                **asdict(processedB)
+            }
         }
-    }
 
-    # Stingify payload for socket transport layer
-    jsonPayload = json.dumps(payload)
+        # Stingify payload for socket transport layer
+        jsonPayload = json.dumps(payload)
 
-    # Send to all clients
-    for c in clients:
-        await c.send(jsonPayload)
+        # Send to all clients
+        for c in clients:
+            await c.send(jsonPayload)
+
+    finally:
+        processing = False
 
 
 if (__name__ == "__main__"):
