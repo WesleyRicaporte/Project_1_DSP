@@ -2,7 +2,8 @@
     "scripts": {
         "build": "cd ./waveforms && webpack",
         "mock": "cd ./waveforms/mock && tsc && node ./dist/mock/mock.js",
-        "server": "cd ./server && ./run.sh"
+        "server": "cd ./server && ./run.sh",
+        "client": "cd ./client && vite"
     },
     "devDependencies": {
         "@types/google.visualization": "^0.0.75",

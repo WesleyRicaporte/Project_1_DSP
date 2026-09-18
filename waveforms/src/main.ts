@@ -1,6 +1,7 @@
 import { UMail2Tx, UMailTx } from "./uMail.js";
 
-const rootDir = "C:/Users/Nicholas/tmp";
+const rootDir = "/tmp/mailbox";
+const prefix = "t";
 const minPeriod = 500; // Min time between subsequent reads (ms)
 
 // Main function (entry point)
@@ -14,7 +15,7 @@ function main() {
     const byteSizes = ["B", "KB", "MB", "GB"];
 
     // Create mailbox
-    const tx = new UMail2Tx(rootDir, "tx", {
+    const tx = new UMail2Tx(rootDir, prefix, {
         threshold: 10000,
     });
 
