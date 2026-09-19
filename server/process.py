@@ -41,15 +41,20 @@ def processB(data: np.ndarray) -> CosDesc:
     t = data["time"]
     value = data["value"]
 
+    # Amount to search around the peak
+    # frequency for other frequencies
+    bucket_size = 4
+
     # Compute sampling frequency from first two time samples
     fsample = 1 / (t[1] - t[0])
 
     fft = np.fft.fft(value)
 
     # Search for max freq.
-    maxI = 0
-    maxM = 0
-    for i in range(0, int(len(fft) / 2)):
+    # Explitly ignoring DC offset
+    maxI = 1
+    maxM = -1
+    for i in range(1, int(len(fft) / 2)):
         mag = np.abs(fft[i])
         if (mag > maxM):
             maxM = mag
@@ -59,12 +64,16 @@ def processB(data: np.ndarray) -> CosDesc:
     # Create mask to zero-out all others
     mask = np.zeros(len(fft))
 
-    for i in range(-1, 2):
-        if (maxI + i >= 0 and maxI + i < len(mask)):
+    for i in range(-bucket_size, bucket_size + 1):
 
-            # Apply mask to both bottom AND top of FFT range
-            # Handles aliasing
+        # Apply mask to both bottom AND top of FFT range
+        # Handles aliasing
+        bottom = maxI + i
+        top = len(fft) - (maxI + i)
+
+        if (bottom >= 1 and bottom < len(mask)):
             mask[maxI + i] = 1
+        if (top >= 1 and top < len(mask)):
             mask[len(fft) - (maxI + i)] = 1
 
     filt_fft = fft * mask
