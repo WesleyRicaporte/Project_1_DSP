@@ -1,7 +1,8 @@
 {
     "scripts": {
         "build": "cd ./waveforms && webpack",
-        "mock": "cd ./waveforms/mock && tsc && node ./dist/mock/mock.js",
+        "mock": "cd ./waveforms/mock && ./run.sh",
+        "dmock": "cd ./waveforms/mock && bash ./run.sh 1",
         "server": "cd ./server && ./run.sh",
         "dserver": "cd ./server && ./run.sh 1",
         "client": "cd ./client && vite"

@@ -52,22 +52,6 @@ function onmessage(ev: MessageEvent) {
     // Render each plot staggered to avoid one slow frame
     if (staggeredRenderCt === 0) stepStaggeredRender(data);
     staggeredRenderCt = 0;
-
-    // Render data counts immediately (low frame-budget cost)
-    p1.stat([
-        ["Frequency (Hz)", data.b.freq / (2 * Math.PI)],
-        ["Phase (deg)", (data.b.phase * 180) / Math.PI],
-        ["Amplitude", data.b.amp],
-        ["Offset", data.b.offset],
-        ["Error", data.b.error],
-    ]);
-    p2.stat([
-        ["Frequency (Hz)", data.a.freq / (2 * Math.PI)],
-        ["Phase (deg)", (data.a.phase * 180) / Math.PI],
-        ["Amplitude", data.a.amp],
-        ["Offset", data.a.offset],
-        ["Error", data.a.error],
-    ]);
 }
 
 let staggeredRenderCt = 0;
@@ -75,11 +59,35 @@ function staggeredRender(data: scheme) {
     switch (staggeredRenderCt) {
         case 0:
             p1.plot(data.time, data.raw, data.b.synthesized);
-
-            stepStaggeredRender(data, 250, true);
+            stepStaggeredRender(data, 50, true);
             break;
+
+        // Render p1 data counts
         case 1:
+            p1.stat([
+                ["Frequency (Hz)", data.b.freq / (2 * Math.PI)],
+                ["Phase (deg)", (data.b.phase * 180) / Math.PI],
+                ["Amplitude", data.b.amp],
+                ["Offset", data.b.offset],
+                ["Error", data.b.error],
+            ]);
+            stepStaggeredRender(data, 50, true);
+            break;
+
+        case 2:
             p2.plot(data.time, data.raw, data.a.synthesized);
+            stepStaggeredRender(data, 50, true);
+            break;
+
+        // Render p2 data counts
+        case 3:
+            p2.stat([
+                ["Frequency (Hz)", data.a.freq / (2 * Math.PI)],
+                ["Phase (deg)", (data.a.phase * 180) / Math.PI],
+                ["Amplitude", data.a.amp],
+                ["Offset", data.a.offset],
+                ["Error", data.a.error],
+            ]);
             staggeredRenderCt = 0; // Reset
             break;
     }

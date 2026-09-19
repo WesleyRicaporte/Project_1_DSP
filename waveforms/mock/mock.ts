@@ -1,7 +1,7 @@
 // Mock `main.ts` operation _WITHOUT_ a real device
 
 import { UMail2Tx } from "../src/uMail.js";
-import fs from "fs";
+import * as fs from "fs";
 import path from "path";
 
 const rootDir = "/tmp/mailbox";
@@ -9,10 +9,10 @@ const prefix = "t";
 const minPeriod = 500; // Min time between subsequent reads (ms)
 
 const mockFreq = 1000; // Mock frequency (Hz)
-const samplesPerReading = 100;
-const sampleRate = 10000; // Sampling frequency (Hz)
-const noise = 0.1;
-const fnoise = 0.1;
+const samplesPerReading = 1000;
+const sampleRate = 100000; // Sampling frequency (Hz)
+const noise = 0.0;
+const fnoise = 0.05;
 
 function main() {
     const byteSizes = ["B", "KB", "MB", "GB"];
@@ -49,7 +49,7 @@ function main() {
         for (let i = 0; i < samplesPerReading; i++) {
             const t = i / sampleRate;
 
-            const v = Math.cos(t * w0) + Math.random() * noise;
+            const v = Math.cos(t * w0) + Math.random() * noise + 5;
 
             csv.push(`${t},${v}`);
         }

@@ -62,10 +62,15 @@
 
     <!-- Clone this to create additional stats -->
     <template id="stat-template">
-        <div class="stat">
+        <label class="stat">
+            <div class="stat-plot"></div>
+            <div class="stat-blocker"></div>
+
             <div class="stat-value"></div>
             <div class="stat-label"></div>
-        </div>
+
+            <input type="checkbox" class="state" hidden>
+        </label>
     </template>
 
 </body>
