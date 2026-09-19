@@ -3,6 +3,7 @@
         "build": "cd ./waveforms && webpack",
         "mock": "cd ./waveforms/mock && tsc && node ./dist/mock/mock.js",
         "server": "cd ./server && ./run.sh",
+        "dserver": "cd ./server && ./run.sh 1",
         "client": "cd ./client && vite"
     },
     "devDependencies": {

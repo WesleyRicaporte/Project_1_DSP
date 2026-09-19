@@ -1,4 +1,3 @@
-import time
 import numpy as np
 import io
 import asyncio
@@ -13,11 +12,11 @@ rootDir = "/tmp/mailbox"
 prefix = "t"
 port = 5150
 
-clients: dict[ServerConnection, bool] = {}
+clients: dict[ServerConnection, int] = {}
 loop: asyncio.AbstractEventLoop = None
 
 async def handler(websocket: ServerConnection):
-    clients[websocket] = True # Track self
+    clients[websocket] = 0 # Track self
     print(f"Client connected ({len(clients)})")
 
     try:
@@ -53,6 +52,8 @@ async def run_processing(sstream: io.StringIO):
 
     processing = True
 
+    jsonPayload: str = ""
+
     try:
         data = np.loadtxt(sstream, dtype=np.dtype([("time", float), ("value", float)]), delimiter=",")
 
@@ -79,12 +80,21 @@ async def run_processing(sstream: io.StringIO):
         # Stingify payload for socket transport layer
         jsonPayload = json.dumps(payload)
 
-        # Send to all clients
-        for c in clients:
-            await c.send(jsonPayload)
-
     finally:
         processing = False
+
+    # Allow messages to be sent while processing other data
+    # Get current client generation counters
+    # last_gens: dict[ServerConnection, int] = {}
+    # for c in clients:
+    #     last_gens[c] = clients[c]
+
+    # Send to all clients concurrently
+    awaitables: list[asyncio.Future] = []
+    for c in clients:
+        awaitables.append(c.send(jsonPayload))
+    await asyncio.gather(*awaitables)
+
 
 
 if (__name__ == "__main__"):

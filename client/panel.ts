@@ -21,16 +21,6 @@ export class Panel {
      * @param points    Amplitudes that make up data
      */
     plot(time: number[], points: number[], line: number[]) {
-        // TEST
-        // Plot every N line points
-        const t2: number[] = [];
-        const l2: number[] = [];
-
-        for (let i = 0; i < time.length; i += 1) {
-            t2.push(time[i]);
-            l2.push(line[i]);
-        }
-
         const data: Plotly.Data[] = [
             {
                 type: "scattergl",
@@ -45,12 +35,14 @@ export class Panel {
             {
                 type: "scattergl",
                 mode: "line",
-                x: t2,
-                y: l2,
+                x: time,
+                y: line,
                 name: "Synth",
             },
         ];
 
+        // Throttle performance while not actively in use
+        if (document.hidden === true) return;
         Plotly.react(this.root, data, Panel.layout, Panel.config);
     }
 

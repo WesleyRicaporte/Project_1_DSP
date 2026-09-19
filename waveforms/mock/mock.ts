@@ -8,17 +8,17 @@ const rootDir = "/tmp/mailbox";
 const prefix = "t";
 const minPeriod = 500; // Min time between subsequent reads (ms)
 
-const mockFreq = 1; // Mock frequency (Hz)
-const samplesPerReading = 1024;
-const sampleRate = 100; // Sampling frequency (Hz)
+const mockFreq = 1000; // Mock frequency (Hz)
+const samplesPerReading = 100;
+const sampleRate = 10000; // Sampling frequency (Hz)
 const noise = 0.1;
-const fnoise = 0.01;
+const fnoise = 0.1;
 
 function main() {
     const byteSizes = ["B", "KB", "MB", "GB"];
 
     const tx = new UMail2Tx(rootDir, prefix, {
-        threshold: 10000,
+        threshold: 100,
         File: (p: string) => {
             // Ensure dir exists
             const dirName = path.dirname(p);
