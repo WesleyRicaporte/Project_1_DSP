@@ -1,4 +1,5 @@
 import Plotly, { PlotlyDataLayoutConfig } from "plotly.js-dist-min";
+import { mean, stdev } from "./stats.js";
 
 const statTemplate = document
     .querySelector<HTMLTemplateElement>("#stat-template")!
@@ -123,6 +124,13 @@ export class Panel {
 
             const chart = child.querySelector<HTMLElement>(".stat-plot")!;
             charts.push(chart);
+
+            // Compute + update new mean and stdev
+            const m = mean(history);
+            const s = stdev(history);
+
+            child.querySelector(".stat-mean")!.textContent = m.toPrecision(2);
+            child.querySelector(".stat-stdev")!.textContent = s.toPrecision(2);
 
             this.render(chart, data, Panel.miniLayout, Panel.miniConfig);
         }

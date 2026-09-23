@@ -1,78 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
 
-    <title>Dashboard</title>
+        <link rel="stylesheet" href="style.css" />
 
-    <link rel="stylesheet" href="style.css">
+        <!-- Load material symbols -->
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=pause"
+        />
 
-    <!-- Load material symbols -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=pause" />
+        <!-- Google charts -->
+        <script
+            type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"
+        ></script>
 
-    <!-- Google charts -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="module" src="script.ts" defer></script>
+    </head>
 
-    <script type="module" src="script.ts" defer></script>
-</head>
+    <body>
+        <label class="frame-view">
+            <span class="material-symbols-outlined frame-view-paused"
+                >pause</span
+            >
+            <canvas class="frame-view-canvas"></canvas>
 
-<body>
-
-    <label class="frame-view">
-        <span class="material-symbols-outlined frame-view-paused">pause</span>
-        <canvas class="frame-view-canvas"></canvas>
-
-        <input type="checkbox" class="frame-state" hidden>
-    </label>
-
-    <main class="dashboard">
-
-        <!-- ==================== SECTION 1 ==================== -->
-        <section class="data-section" id="section-1">
-
-            <h2 class="section-title">Ours</h2>
-
-            <div class="chart-container">
-                <div class="chart" id="chart-1"></div>
-            </div>
-
-            <div class="stats" id="stats-1"></div>
-
-        </section>
-
-
-        <!-- ==================== SECTION 2 ==================== -->
-        <section class="data-section" id="section-2">
-
-            <h2 class="section-title">Original</h2>
-
-            <div class="chart-container">
-                <!-- Give this element to Google Charts -->
-                <div class="chart" id="chart-2"></div>
-            </div>
-
-            <div class="stats" id="stats-2"></div>
-
-        </section>
-
-    </main>
-
-    <!-- Clone this to create additional stats -->
-    <template id="stat-template">
-        <label class="stat">
-            <div class="stat-plot"></div>
-            <div class="stat-blocker"></div>
-
-            <div class="stat-value"></div>
-            <div class="stat-label"></div>
-
-            <input type="checkbox" class="state" hidden>
+            <input type="checkbox" class="frame-state" hidden />
         </label>
-    </template>
 
-</body>
+        <main class="dashboard">
+            <!-- ==================== SECTION 1 ==================== -->
+            <section class="data-section" id="section-1">
+                <h2 class="section-title">Ours</h2>
 
+                <div class="chart-container">
+                    <div class="chart" id="chart-1"></div>
+                </div>
+
+                <div class="stats" id="stats-1"></div>
+            </section>
+
+            <!-- ==================== SECTION 2 ==================== -->
+            <section class="data-section" id="section-2">
+                <h2 class="section-title">Original</h2>
+
+                <div class="chart-container">
+                    <!-- Give this element to Google Charts -->
+                    <div class="chart" id="chart-2"></div>
+                </div>
+
+                <div class="stats" id="stats-2"></div>
+            </section>
+        </main>
+
+        <!-- Clone this to create additional stats -->
+        <template id="stat-template">
+            <label class="stat">
+                <div class="stat-plot"></div>
+                <div class="stat-blocker"></div>
+
+                <div class="stat-value"></div>
+                <div class="stat-label"></div>
+
+                <div class="stat-summary">
+                    <div class="stat-mean"></div>
+                    <div class="stat-stdev"></div>
+                </div>
+
+                <input type="checkbox" class="state" hidden />
+            </label>
+        </template>
+    </body>
 </html>

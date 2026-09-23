@@ -274,6 +274,32 @@ body {
     pointer-events: none;
 }
 
+.stat-summary {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    display: flex;
+    justify-content: right;
+    gap: 1em;
+    padding: 5px;
+
+    z-index: 1000;
+}
+
+.stat-mean::before {
+    content: "μ: ";
+}
+
+.stat-stdev::before {
+    content: "σ: ";
+}
+
+.stat-stdev {
+    right: 0px;
+}
+
 /* ---------- Small Screens ---------- */
 
 @media (max-width: 800px) {
