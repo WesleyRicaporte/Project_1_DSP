@@ -300,12 +300,12 @@ def processB1(data: np.ndarray):
     # Compute sampling frequency from first two time samples
     fsample = 1 / (t[1] - t[0])
 
-    fft = np.fft.fft(value) / len(value) * 2
+    fft = np.fft.fft(value) / len(value)
 
     # Search for max freq.
     maxI = 0
     maxM = 0
-    for i in range(0, int(len(fft) / 2)):
+    for i in range(1, int(len(fft) / 2)):
         mag = np.abs(fft[i])
         if (mag > maxM):
             maxM = mag
@@ -314,10 +314,9 @@ def processB1(data: np.ndarray):
     # Freq from fft max index
     freq = maxI * (fsample / len(fft)) * 2 * math.pi
 
-    # return CosDesc(maxM, np.mag(fft[0]), fft[maxI], freq)
-    return CosDesc(float(maxM), 0, -float(np.angle(fft[maxI])), float(freq))
+    return CosDesc(2*float(maxM), float(np.abs(fft[0])), -float(np.angle(fft[maxI])), float(freq))
 
-def processB2(data: np.ndarray) -> CosDesc:
+def processB0(data: np.ndarray) -> CosDesc:
     t = data["time"]
     value = data["value"]
 

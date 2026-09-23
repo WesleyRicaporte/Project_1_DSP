@@ -9,10 +9,10 @@ const prefix = "t";
 const minPeriod = 500; // Min time between subsequent reads (ms)
 
 const mockFreq = 1000; // Mock frequency (Hz)
-const samplesPerReading = 1000;
+const samplesPerReading = 1024;
 const sampleRate = 100000; // Sampling frequency (Hz)
-const noise = 0.0;
-const fnoise = 0.05;
+const noise = 0.1;
+const fnoise = 0.0;
 
 function main() {
     const byteSizes = ["B", "KB", "MB", "GB"];
