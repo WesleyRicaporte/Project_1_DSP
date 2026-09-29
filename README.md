@@ -23,7 +23,7 @@ Generating signals is clearly trivialized by this formula. However
 reversing the process–estimating these parameters from a set of
 points–is far more difficult and far less clean. This paper introduces a
 novel method to estimate these parameters by adjusting a preexisting
-method.
+method. The accuracy and consistency of the estimated parameters are evaluated by comparing the error between the original and estimated signals using the mean square error and standard deviation.
 
 # 2. Original QAM Method
 
@@ -376,82 +376,27 @@ for a_ 0.8 kHz to 1.2 kHz frequency sweep _with 10% added noise._
 | Original Algorithm | 0.49               | 0.21                          |
 | Final Algorithm    | 0.092              | 0.0091                        |
 
-Figures 5.1 through 5.4 show the estimated signal outputs of the final
-algorithm compared with the original QAM method for each test case. At 1
-kHz, the original algorithm produced a mean error of 0.029 compared with
-0.051 for the final algorithm (Table 5.1). The original algorithm also
-had a lower standard deviation at this frequency. At 1.1 kHz, the
-original algorithm's mean error increased to 0.71, while the final
-algorithm produced a mean error of 0.060 (Table 5.2). At 900 Hz, the
-original algorithm produced a mean error of 0.55 compared with 0.13 for
-the final algorithm (Table 5.3). During the 0.8 to 1.2 kHz frequency
-sweep, the original algorithm produced a mean error of 0.49 with a
-standard deviation of 0.21, while the final algorithm produced a mean
-error of 0.092 with a standard deviation of 0.0091 (Table 5.4).
-
-#
+Figures 5.1 through 5.4 show the estimated signal outputs of the final algorithm compared with the original QAM method for each test case. At 1 kHz, the original algorithm produced a mean error of 0.029 compared with 0.051 for the final algorithm. The original algorithm also had a lower standard deviation at this frequency (Table 5.1). At 1.1 kHz, the original algorithm's mean error increased to 0.71, while the final algorithm produced a mean error of 0.060 (Table 5.2). At 900 Hz, the original algorithm produced a mean error of 0.55 compared with 0.13 for the final algorithm (Table 5.3). During the 0.8 to 1.2 kHz frequency sweep, the original algorithm produced a mean error of 0.49 with a standard deviation of 0.21, while the final algorithm produced a mean error of 0.092 with a standard deviation of 0.0091 (Table 5.4).
 
 # 6. Analysis
 
-The results show a clear difference between the original QAM method and
-the final method. At the 1 kHz test frequency, the original algorithm
-had a lower mean error and standard deviation than the final method.
-This result was expected because the original QAM method was given the
-correct frequency of 1 kHz. When the input signal matched this value,
-the original method had the advantage of already knowing the signal
-frequency.
+The results show a clear difference between the original QAM method and the final method. At the 1 kHz test frequency, the original algorithm had a lower mean error and standard deviation than the final method. This result was expected because the original QAM method was given the correct frequency of 1 kHz. When the input signal matches this value, the original method has the advantage of already knowing the signal frequency.
 
-The final method's advantage became apparent when the input frequency
-was changed. At 1.1 kHz, the mean error of the original algorithm went
-from 0.029 to 0.71, while the final algorithm stayed the same going from
-0.051 to 0.60. At 900 Hz, the mean error of the original algorithm
-increased from 0.029 to 0.55, while the final algorithm increased from
-0.051 to 0.13. Although the final method showed a larger error than it
-did at 1 kHz, it remained much closer to the original signal than the
-original QAM method.
+The final method's advantage became apparent when the input frequency was changed. At 1.1 kHz, the mean square error of the original algorithm went from 0.029 to 0.71, while the final algorithm stayed the same going from 0.051 to 0.060. At 900 Hz, the mean error of the original algorithm increased from 0.029 to 0.55, while the final algorithm increased from 0.051 to 0.13. Although the final method showed a larger error than at 1 kHz, it remained much closer to the original signal than the original QAM method.
 
-The frequency sweep from 0.8 kHz to 1.2 kHz provided a realistic
-comparison between the two methods. The original algorithm produced a
-mean error of 0.49 with a standard deviation of 0.21. In comparison, the
-final algorithm produced a mean error of 0.092 with a standard deviation
-of 0.0091. The much smaller standard deviation also shows that the final
-method remained more consistent as the input frequency changed.
+The frequency sweep from 0.8 kHz to 1.2 kHz provided a realistic comparison between the two methods. The original algorithm produced a mean error of 0.49 with a standard deviation of 0.21. In comparison, the final algorithm produced a mean error of 0.092 with a standard deviation of 0.0091. The much smaller standard deviation also shows that the final method remained more consistent as the input frequency changed.
 
-The mean error is the average difference between the estimated and
-original signal. A lower mean error means that the algorithm’s estimate
-was closer to the original signal. The standard deviation shows how the
-error varied throughout the test. A smaller standard deviation means the
-error stayed more consistent, and a larger standard deviation means the
-error changed more from one measurement to another. The mean and
-standard deviation show the accuracy and consistency of the algorithms
-as the input frequency is changed.
+The square mean error is the average square difference between the estimated and original signal. A lower mean error means that the algorithm’s estimate was closer to the original signal. The standard deviation shows how the error varied throughout the test. A smaller standard deviation means the error stayed more consistent, and a larger standard deviation means the error changed more from one measurement to another. The mean and standard deviation show the accuracy and consistency of the algorithms as the input frequency is changed.
 
-Overall, the final algorithm did not improve the results when the exact
-frequency was known. Its advantage was estimating the frequency from the
-sampled signal. The FFT allowed for an initial estimate of the dominant
-frequency, and the filtering, along with the zero-crossing detection,
-computed an estimated frequency before the QAM calculations. This made
-it so the final algorithm could estimate signal parameters when the
-correct frequency is not known beforehand.
-
-#
+Overall, the final algorithm did not improve the results when the exact frequency was known. Its advantage was estimating the frequency from the sampled signal. The FFT allowed for an initial estimate of the dominant frequency, and the filtering, along with the zero-crossing detection, computed an estimated frequency before the QAM calculations. This made it so the final algorithm could estimate signal parameters when the correct frequency is not known beforehand.
 
 # 7. Conclusion
 
-For situations where the frequency of the original signal is unknown,
-the proposed FFT-based approach works fairly well, automatically
-computing an estimated frequency value. However this value is never
-exact, and because the underlying QAM method is so sensitive to the
-frequency of this signal, the error can vary dramatically depending on
-the accuracy of the initial frequency estimation.
+For situations where the frequency of the original signal is unknown, the proposed FFT-based approach works fairly well, automatically computing an estimated frequency value. However this value is never exact, and because the underlying QAM method is so sensitive to the frequency of this signal, the error can vary dramatically depending on the accuracy of the initial frequency estimation. This was shown in the 1.1 kHz, 900 Hz, and frequency-sweep tests, where the final method produced a lower mean error than the original QAM method using an incorrect assumed frequency. The frequency sweep also showed a much lower standard deviation, meaning it performed more consistently as the input frequency changed.
 
-As such, the original QAM method is recommended whenever the original
-frequency is already known—it requires less processing power and tends
-to produce a result with lower error.
+As such, the original QAM method is recommended whenever the original frequency is already known—it requires less processing power and tends to produce a result with lower error.
 
-Overall, the proposed FFT-based approach fills the niche of parameter
-estimation where the signal frequency is either unstable or unknown,
-providing a better result than assuming an incorrect frequency.
+Overall, the proposed FFT-based approach fills the niche of parameter estimation where the signal frequency is either unstable or unknown, providing a better result than assuming an incorrect frequency.
 
 # A. Code Setup
 
@@ -721,7 +666,3 @@ https://mathworld.wolfram.com/Moore-PenroseMatrixInverse.html
     For performance reasons, the client only functions on browsers
     that support WebGL. If your browser does not support this, a message
     indicating as much will be displayed in the main graphs
-
-```
-
-```
